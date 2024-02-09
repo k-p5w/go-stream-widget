@@ -16,7 +16,7 @@ http://localhost:9999/view?type=remain.html
 
 ### フルモード
 
-http://localhost:9999/view?type=助六.html
+http://localhost:9999/api?type=Europe_London.html
 
 ### タイムゾーン指定モード
 

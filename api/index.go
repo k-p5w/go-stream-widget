@@ -60,7 +60,8 @@ func getCalendar() (string, string) {
 	// 残り日数を計算する
 	remainingDays := endOfYear.Sub(today).Hours() / 24
 
-	atDays := remainingDays / yearALLDays
+	atDays := (remainingDays / yearALLDays) * 100
+
 	yearHPper := fmt.Sprintf("%.2f%%", atDays)
 
 	// 残り日数を表示する
