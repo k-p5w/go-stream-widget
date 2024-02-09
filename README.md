@@ -4,29 +4,32 @@
 
  go run E:\_home\GitHub\go-stream-widget\api
 
-## 表示
+## 表示（ローカル起動）
 
-### simpleモード
+### シンプルモード
 
-http://localhost:9999/view?type=simple.html
+http://localhost:9999/api?type=simple.html
+
 
 ### remainモード
 
-http://localhost:9999/view?type=remain.html
-
-### フルモード
-
-http://localhost:9999/view?type=助六.html
-
-### タイムゾーン指定モード
+http://localhost:9999/api?type=remain.html
 
 
-http://localhost:9999/view?type=Australia_Sydney.html
+### タイムゾーン指定モード(全開放)
 
-https://go-stream-widget.vercel.app:9999/view?type=remain.html
-https://go-stream-widget.vercel.app:9999/view?type=cad.html
-https://go-stream-widget.vercel.app/view?type=remain.html
+http://localhost:9999/api?type=Europe_London.html
+http://localhost:9999/api?type=Australia_Sydney.html
 
- - これで起動しないのなんでだ
+## 表示（Webサーバー起動）
 
- https://go-stream-widget-1gdflyvfv-k-p5w.vercel.app:9999/view?type=remain.html
+- 自分が登録した場所での例
+
+* シンプルモード
+https://go-stream-widget.vercel.app/api?type=simple.html
+
+* リマインダーモード（残日数表示） 
+https://go-stream-widget.vercel.app/api?type=remain.html
+
+* 世界時計モード
+https://go-stream-widget.vercel.app/api?type=Europe_London.html

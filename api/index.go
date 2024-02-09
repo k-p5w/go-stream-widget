@@ -12,10 +12,34 @@ import (
 var kanjiDigits = []string{"〇", "一", "二", "三", "四", "五", "六", "七", "八", "九"}
 
 func arabicToKanji(num int) string {
+
+	orgVal := arabicToKanjiOrg(num)
+	gVal := arabicToKanjiGemimi(num)
+	gptVal := arabicToKanjiGPT(num)
+
+	fmt.Printf("%v(Org) vs %v(Gemimi) vs %v(ChatGPT)", orgVal, gVal, gptVal)
+	ret := ""
+	if orgVal == gVal {
+		if orgVal == gptVal {
+			ret = orgVal
+		} else {
+			ret = gVal
+		}
+
+	} else {
+		ret = gptVal
+	}
+	return ret
+}
+
+// arabicToKanji is 漢字変換
+func arabicToKanjiOrg(num int) string {
 	kanji := ""
 	strNum := strconv.Itoa(num)
 	for i, digit := range strNum {
+		// 数値変換
 		digitInt, _ := strconv.Atoi(string(digit))
+		// １３，２２，３１みたいなときに、十三、二十二、三十一にしたいだけなのに。
 		if digitInt != 0 {
 			if i > 0 {
 				kanji += "十"
@@ -23,6 +47,73 @@ func arabicToKanji(num int) string {
 			kanji += kanjiDigits[digitInt]
 		}
 	}
+	return kanji
+}
+
+func arabicToKanjiGemimi(num int) string {
+	kanji := ""
+	strNum := strconv.Itoa(num)
+	prevDigit := -1 // 前の桁の数字
+
+	for i, digit := range strNum {
+		// 数値変換
+		digitInt, _ := strconv.Atoi(string(digit))
+
+		// 1桁目の処理
+		if i == 0 {
+			if digitInt == 1 {
+				kanji = "一"
+			} else if digitInt > 1 {
+				kanji = kanjiDigits[digitInt]
+			}
+			prevDigit = digitInt
+			continue
+		}
+
+		// 2桁目以降の処理
+		if digitInt == 0 {
+			// 0の場合は何もしない
+		} else if digitInt == 1 {
+			if prevDigit == 1 {
+				// 十一の場合
+				kanji += "一"
+			} else {
+				// 十Xの場合
+				kanji += "十" + "一"
+			}
+		} else if digitInt > 1 {
+			if prevDigit == 1 {
+				// 十Xの場合
+				kanji += "十" + kanjiDigits[digitInt]
+			} else {
+				// 二十Xの場合
+				kanji += kanjiDigits[digitInt]
+			}
+		}
+		prevDigit = digitInt
+	}
+
+	return kanji
+}
+
+func arabicToKanjiGPT(num int) string {
+	kanji := ""
+	strNum := strconv.Itoa(num)
+	kanjiDigits := []string{"", "一", "二", "三", "四", "五", "六", "七", "八", "九"}
+
+	for i, digit := range strNum {
+		digitInt, _ := strconv.Atoi(string(digit))
+
+		switch {
+		case i == 0:
+			kanji += kanjiDigits[digitInt]
+		case i == 1 && digitInt > 0:
+			kanji += "十" + kanjiDigits[digitInt]
+		case i == 2 && digitInt > 0:
+			kanji += "百" + kanjiDigits[digitInt]
+		}
+	}
+
 	return kanji
 }
 
@@ -60,7 +151,8 @@ func getCalendar() (string, string) {
 	// 残り日数を計算する
 	remainingDays := endOfYear.Sub(today).Hours() / 24
 
-	atDays := remainingDays / yearALLDays
+	atDays := (remainingDays / yearALLDays) * 100
+
 	yearHPper := fmt.Sprintf("%.2f%%", atDays)
 
 	// 残り日数を表示する
@@ -109,7 +201,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	viewPage := fmt.Sprintf(`	<!DOCTYPE html>
 	<html lang="ja">
 <head>
-  <title>Stream-Helper[%v]</title>
+  <title>ストリーマー.widget[%v]</title>
   <link rel="stylesheet" href="https://scrapbox.io/api/code/cybernote/twitchbot-translatetext2nd/clock.css">
   
   <link rel="stylesheet" href="style.css">
