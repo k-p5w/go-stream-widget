@@ -64,7 +64,7 @@ func getCalendar() (string, string) {
 	yearHPper := fmt.Sprintf("%.2f%%", atDays)
 
 	// 残り日数を表示する
-	yearHP := fmt.Sprintf("今年の残り日数:%.1f 【%v】", remainingDays, yearHPper)
+	yearHP := fmt.Sprintf("今年の残り日数:%.1f 【%s】", remainingDays, yearHPper)
 
 	return dispItem, yearHP
 }
