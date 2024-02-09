@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"fmt"
@@ -202,7 +202,7 @@ setInterval(updateTime, 60000);
 }
 
 // メイン部分
-func main() {
+func StartWidget() {
 	// 登録する
 	http.HandleFunc("/view", CalendarHandler)
 	http.HandleFunc("/", CalendarHandler)
