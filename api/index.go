@@ -1,9 +1,8 @@
-package handler
+package widget
 
 import (
 	"fmt"
 	"net/http"
-	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -69,7 +68,7 @@ func getCalendar() (string, string) {
 
 	return dispItem, yearHP
 }
-func CalendarHandler(w http.ResponseWriter, r *http.Request) {
+func Handler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("start-CalendarHandler.")
 
@@ -201,24 +200,7 @@ setInterval(updateTime, 60000);
 	fmt.Fprint(w, viewPage)
 }
 
-// メイン部分
-func StartWidget() {
-	// 登録する
-	http.HandleFunc("/view", CalendarHandler)
-	http.HandleFunc("/", CalendarHandler)
-
-	fmt.Println("http://localhost:9999/view?type=simple.html")
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "9999"
-	}
-	// 起動する
-	http.ListenAndServe(":"+port, nil)
-	// ローカル起動の時
-	// http.ListenAndServe("localhost:"+port, nil)
-}
-
+// getTips is TIPSの読み込み
 func getTips(keySS string) string {
 
 	// 末尾の秒を取り出す
