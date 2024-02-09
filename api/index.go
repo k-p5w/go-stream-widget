@@ -214,9 +214,9 @@ func StartWidget() {
 		port = "9999"
 	}
 	// 起動する
-	// http.ListenAndServe(":"+port, nil)
+	http.ListenAndServe(":"+port, nil)
 	// ローカル起動の時
-	http.ListenAndServe("localhost:"+port, nil)
+	// http.ListenAndServe("localhost:"+port, nil)
 }
 
 func getTips(keySS string) string {

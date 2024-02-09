@@ -23,3 +23,4 @@ http://localhost:9999/view?type=助六.html
 
 http://localhost:9999/view?type=Australia_Sydney.html
 
+https://go-stream-widget.vercel.app/view?type=remain.html
