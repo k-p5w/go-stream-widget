@@ -39,7 +39,6 @@ func arabicToKanji(num int) string {
 	for i, digit := range dayStr {
 
 		digitInt, _ := strconv.Atoi(string(digit))
-		fmt.Printf("%v[%v]/i:%v/val:%v \n", num, dayStr, i, digitInt)
 		// 13なら、1→3の順にくる
 		// 数値→漢字変換
 		kanjiDigit[i] = kansujiMap[digitInt]
@@ -47,7 +46,6 @@ func arabicToKanji(num int) string {
 		// 1桁だけの数値の場合
 		if len(dayStr) == 1 {
 			result = kanjiDigit[i]
-			fmt.Printf("result:%v \n", result)
 		} else {
 			// 2桁ある数値の十の位の場合
 			if i == 0 {
@@ -58,13 +56,10 @@ func arabicToKanji(num int) string {
 				case 2, 3:
 					result = kanjiDigit[i] + "十"
 				}
-				fmt.Printf("十の位%v:%v=result:%v \n", i, digit, result)
 
 			} else {
 				// 2桁ある数値の一の位の場合
-
 				result += kanjiDigit[i]
-				fmt.Printf("十の位%v:%v=result:%v \n", i, dayStr, result)
 			}
 
 		}
