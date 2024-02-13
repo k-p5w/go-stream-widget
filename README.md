@@ -18,8 +18,12 @@ http://localhost:9999/api?type=remain.html
 
 ### タイムゾーン指定モード(全開放)
 
-http://localhost:9999/api?type=Europe_London.html
-http://localhost:9999/api?type=Australia_Sydney.html
+http://localhost:9999/view?type=助六.html
+
+### タイムゾーン指定モード
+
+
+http://localhost:9999/view?type=Australia_Sydney.html
 
 ## 表示（Webサーバー起動）
 
