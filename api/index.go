@@ -9,112 +9,68 @@ import (
 	"time"
 )
 
-var kanjiDigits = []string{"〇", "一", "二", "三", "四", "五", "六", "七", "八", "九"}
-
 func arabicToKanji(num int) string {
 
-	orgVal := arabicToKanjiOrg(num)
-	gVal := arabicToKanjiGemimi(num)
-	gptVal := arabicToKanjiGPT(num)
+	// 漢字変換マップを作成します
+	kansujiMap := map[int]string{
+		0: "",
+		1: "一",
+		2: "二",
+		3: "三",
+		4: "四",
+		5: "五",
+		6: "六",
+		7: "七",
+		8: "八",
+		9: "九",
+	}
 
-	fmt.Printf("%v(Org) vs %v(Gemimi) vs %v(ChatGPT)", orgVal, gVal, gptVal)
-	ret := ""
-	if orgVal == gVal {
-		if orgVal == gptVal {
-			ret = orgVal
+	// 日付の二桁を文字列に変換します
+	dayStr := strconv.Itoa(num)
+
+	// 漢字に変換した結果を格納する変数を初期化します
+	var result string
+
+	// 生成AIのロジックでうまく行かないので手作りする
+	kanjiDigit := make([]string, len(dayStr))
+	// 枠を作って、そこに対してセットするだけでいいはず。
+
+	// 日付の各桁を漢字に変換します
+	for i, digit := range dayStr {
+
+		digitInt, _ := strconv.Atoi(string(digit))
+		fmt.Printf("%v[%v]/i:%v/val:%v \n", num, dayStr, i, digitInt)
+		// 13なら、1→3の順にくる
+		// 数値→漢字変換
+		kanjiDigit[i] = kansujiMap[digitInt]
+
+		// 1桁だけの数値の場合
+		if len(dayStr) == 1 {
+			result = kanjiDigit[i]
+			fmt.Printf("result:%v \n", result)
 		} else {
-			ret = gVal
-		}
+			// 2桁ある数値の十の位の場合
+			if i == 0 {
+				// 13→十三/22→二十二/三十一→31
+				switch digitInt {
+				case 1:
+					result = "十"
+				case 2, 3:
+					result = kanjiDigit[i] + "十"
+				}
+				fmt.Printf("十の位%v:%v=result:%v \n", i, digit, result)
 
-	} else {
-		ret = gptVal
-	}
-	return ret
-}
-
-// arabicToKanji is 漢字変換
-func arabicToKanjiOrg(num int) string {
-	kanji := ""
-	strNum := strconv.Itoa(num)
-	for i, digit := range strNum {
-		// 数値変換
-		digitInt, _ := strconv.Atoi(string(digit))
-		// １３，２２，３１みたいなときに、十三、二十二、三十一にしたいだけなのに。
-		if digitInt != 0 {
-			if i > 0 {
-				kanji += "十"
-			}
-			kanji += kanjiDigits[digitInt]
-		}
-	}
-	return kanji
-}
-
-func arabicToKanjiGemimi(num int) string {
-	kanji := ""
-	strNum := strconv.Itoa(num)
-	prevDigit := -1 // 前の桁の数字
-
-	for i, digit := range strNum {
-		// 数値変換
-		digitInt, _ := strconv.Atoi(string(digit))
-
-		// 1桁目の処理
-		if i == 0 {
-			if digitInt == 1 {
-				kanji = "一"
-			} else if digitInt > 1 {
-				kanji = kanjiDigits[digitInt]
-			}
-			prevDigit = digitInt
-			continue
-		}
-
-		// 2桁目以降の処理
-		if digitInt == 0 {
-			// 0の場合は何もしない
-		} else if digitInt == 1 {
-			if prevDigit == 1 {
-				// 十一の場合
-				kanji += "一"
 			} else {
-				// 十Xの場合
-				kanji += "十" + "一"
+				// 2桁ある数値の一の位の場合
+
+				result += kanjiDigit[i]
+				fmt.Printf("十の位%v:%v=result:%v \n", i, dayStr, result)
 			}
-		} else if digitInt > 1 {
-			if prevDigit == 1 {
-				// 十Xの場合
-				kanji += "十" + kanjiDigits[digitInt]
-			} else {
-				// 二十Xの場合
-				kanji += kanjiDigits[digitInt]
-			}
-		}
-		prevDigit = digitInt
-	}
 
-	return kanji
-}
-
-func arabicToKanjiGPT(num int) string {
-	kanji := ""
-	strNum := strconv.Itoa(num)
-	kanjiDigits := []string{"", "一", "二", "三", "四", "五", "六", "七", "八", "九"}
-
-	for i, digit := range strNum {
-		digitInt, _ := strconv.Atoi(string(digit))
-
-		switch {
-		case i == 0:
-			kanji += kanjiDigits[digitInt]
-		case i == 1 && digitInt > 0:
-			kanji += "十" + kanjiDigits[digitInt]
-		case i == 2 && digitInt > 0:
-			kanji += "百" + kanjiDigits[digitInt]
 		}
 	}
 
-	return kanji
+	return result
 }
 
 func getCalendar() (string, string) {
