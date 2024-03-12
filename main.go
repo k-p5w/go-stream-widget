@@ -7,6 +7,12 @@ import (
 )
 
 func main() {
+
+	// これで静的ファイルにアクセスできるとおもったのになあ
+	fs := http.FileServer(http.Dir("web"))
+	http.Handle("/widget/", http.StripPrefix("/widget/", fs))
+
+	http.HandleFunc("/ppppCounter", widget.TskCounter)
 	http.HandleFunc("/view", widget.Handler)
 	http.HandleFunc("/", widget.Handler)
 
@@ -14,6 +20,8 @@ func main() {
 	if port == "" {
 		port = "9999"
 	}
+
 	// 起動する
-	http.ListenAndServe(":"+port, nil)
+	http.ListenAndServe(":"+port, nil/)
+	// http.ListenAndServe("localhost:"+port, nil)
 }

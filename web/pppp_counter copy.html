@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>popoko's counter</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #fff;
+        }
+
+        .dot-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #000;
+            margin: 1px;
+        }
+
+        .dot-filled {
+            background-color: #000;
+        }
+
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px;
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日付選択カレンダー</title>
+    <style>
+        /* 全体的なスタイル */
+        body {
+            font-family: sans-serif;
+        }
+
+        /* カレンダーのスタイル */
+        .calendar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .calendar .day {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ccc;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .calendar .day.selected {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        /* ボタンのスタイル */
+        .button {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dot-container">
+        <div class="dot dot-filled"></div>
+        <div class="dot dot-filled"></div>
+        <div class="dot dot-filled"></div>
+        <div class="dot dot-filled"></div>
+        <div class="dot dot-filled"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <div class="score">50点</div>
+
+    <image src="https://pixe.la/v1/users/popocounter-sample/graphs/popo-tsk-sample.svg"></image>
+
+    <p>
+        https://pixe.la/v1/users/popocounter-sample/graphs/popo-tsk-sample.html
+    </p>
+
+    <div class="calendar"></div>
+
+    <div class="hidden" id="selectedDate"></div>
+
+    <button class="button" id="prevButton">ー</button>
+    <button class="button" id="nextButton">＋</button>
+
+    <script>
+        // カレンダーデータ
+        const calendarData = {
+            year: 2024,
+            month: 3,
+            selectedDate: null
+        };
+
+        // カレンダーを生成する関数
+        function generateCalendar() {
+            const calendar = document.querySelector('.calendar');
+            calendar.innerHTML = '';
+
+            const data = calendarData;
+            const year = data.year;
+            const month = data.month;
+            const selectedDate = data.selectedDate;
+
+            // 現在の月の最初の日付を取得
+            const firstDay = new Date(year, month - 1, 1);
+            // 現在の月の最終日を取得
+            const lastDay = new Date(year, month, 0);
+            // 現在の月の曜日を取得
+            const dayOfWeek = firstDay.getDay();
+
+            // 空白の曜日を生成
+            for (let i = 0; i < dayOfWeek; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('day');
+                dayElement.innerHTML = '&nbsp;';
+                calendar.appendChild(dayElement);
+            }
+
+            // カレンダーの日付を生成
+            for (let i = 1; i <= lastDay.getDate(); i++) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('day');
+                dayElement.innerHTML = i;
+
+                // 選択された日付かどうかをチェック
+                if (selectedDate && selectedDate.getDate() === i) {
+                    dayElement.classList.add('selected');
+                }
+
+                // クリックイベントを追加
+                dayElement.addEventListener('click', function () {
+                    const selectedDay = parseInt(this.textContent);
+                    calendarData.selectedDate = new Date(year, month - 1, selectedDay);
+                    generateCalendar();
+
+                    // 選択された日付を隠し要素に格納
+                    const selectedDateElement = document.getElementById('selectedDate');
+                    selectedDateElement.textContent = selectedDay;
+                });
+
+                calendar.appendChild(dayElement);
+            }
+        }
+
+        // 前月のカレンダーを生成
+        function prevMonth() {
+            const data = calendarData;
+            const year = data.year;
+            const month = data.month;
+
+            if (month === 1) {
+                data.year--;
+                data.month = 12;
+            } else {
+                data.month--;
+            }
+
+            generateCalendar();
+        }
+
+ // 次月のカレンダーを生成
+ function nextMonth() {
+      const data = calendarData;
+      const year = data.year;
+      const month = data.month;
+
+      if (month === 12) {
+        data.year++;
+        data.month = 1;
+      } else {
+        data.month++;
+      }
+
+      generateCalendar();
+    }
+
+    // 初期表示
+    generateCalendar();
+
+    // ボタンのイベントリスナー
+    const prevButton = document.getElementById('prevButton');
+    prevButton.addEventListener('click', prevMonth);
+
+    const nextButton = document.getElementById('nextButton');
+    nextButton.addEventListener('click', nextMonth);
+  </script>
+
+</body >
+</html >

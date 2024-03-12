@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>採点のドット絵</title>
+  <style>
+    body {
+      font-family: monospace;
+      background-color: #fff;
+    }
+    .dot-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #000;
+      margin: 1px;
+    }
+    .dot-filled {
+      background-color: #000;
+    }
+    .score {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dot-container">
+    <div class="dot dot-filled"></div>
+    <div class="dot dot-filled"></div>
+    <div class="dot dot-filled"></div>
+    <div class="dot dot-filled"></div>
+    <div class="dot dot-filled"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <div class="score">50点</div>
+</body>
+</html>

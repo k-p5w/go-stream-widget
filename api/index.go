@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+
+
 func arabicToKanji(num int) string {
 
 	// 漢字変換マップを作成します
