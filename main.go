@@ -10,7 +10,7 @@ func main() {
 
 	// これで静的ファイルにアクセスできるとおもったのになあ
 	fs := http.FileServer(http.Dir("web"))
-	http.Handle("/widget/", http.StripPrefix("/widget/", fs))
+	http.Handle("/tool/", http.StripPrefix("/tool/", fs))
 
 	http.HandleFunc("/ppppCounter", widget.TskCounter)
 	http.HandleFunc("/view", widget.Handler)
@@ -22,6 +22,6 @@ func main() {
 	}
 
 	// 起動する
-	http.ListenAndServe(":"+port, nil/)
+	http.ListenAndServe(":"+port, nil)
 	// http.ListenAndServe("localhost:"+port, nil)
 }

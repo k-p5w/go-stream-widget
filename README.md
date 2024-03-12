@@ -37,3 +37,9 @@ https://go-stream-widget.vercel.app/api?type=remain.html
 
 * 世界時計モード
 https://go-stream-widget.vercel.app/api?type=Europe_London.html
+
+* 舌打ちカウンター
+
+https://go-stream-widget.vercel.app/widget/pppp_counter.html
+
+http://localhost:9999/widget/pppp_counter.html
