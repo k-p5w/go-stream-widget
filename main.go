@@ -9,8 +9,11 @@ import (
 func main() {
 
 	// これで静的ファイルにアクセスできるとおもったのになあ
-	fs := http.FileServer(http.Dir("web"))
-	http.Handle("/tool/", http.StripPrefix("/tool/", fs))
+	fs := http.FileServer(http.Dir("public"))
+	// http.Handle("/tool/", http.StripPrefix("/tool/", fs))
+
+	// `/tool/`以下のパスにアクセスされた場合、`fs`ハンドラーで処理
+	http.Handle("/public/", http.StripPrefix("/public/", fs))
 
 	http.HandleFunc("/ppppCounter", widget.TskCounter)
 	http.HandleFunc("/view", widget.Handler)
